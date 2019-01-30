@@ -64,7 +64,7 @@ public class FileViewerFragment extends Fragment implements OnDatabaseChangedLis
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_file_viewer, container, false);
         mDatabase = new DBHelper(getActivity());
-        // instanciate new List for store recordingItems;
+        // Instantiate new List for recordingItems stored in database
         if (mRecordingItems == null) {
             mRecordingItems = new ArrayList<>();
         }
@@ -79,9 +79,9 @@ public class FileViewerFragment extends Fragment implements OnDatabaseChangedLis
 
         mFileViewerAdapter = new FileViewerAdapter(getActivity(), llm, mRecordingItems, this);
         ItemTouchHelper.Callback callback = new SwapItemTouchHelperCallback(mFileViewerAdapter);
-        // Set Custome CallBack to ItemtoucheHelper
+        // Set Custom Callback to ItemTouchHelper
         mItemTouchHelper = new ItemTouchHelper(callback);
-        // Link ItemTouchAdapter to Recyclerview
+        // Attach ItemTouchAdapter to RecyclerView
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         mRecyclerView.setLayoutManager(llm);
@@ -91,6 +91,7 @@ public class FileViewerFragment extends Fragment implements OnDatabaseChangedLis
 
         return v;
     }
+
 
     private void fillRecordingItemList() {
         mDatabase.getCount();

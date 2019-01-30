@@ -37,7 +37,6 @@ import by.naxa.soundrecorder.R;
 import by.naxa.soundrecorder.RecordingItem;
 import by.naxa.soundrecorder.fragments.PlaybackFragment;
 import by.naxa.soundrecorder.listeners.ItemTouchHelperAdapter;
-import by.naxa.soundrecorder.listeners.OnDatabaseChangedListener;
 import by.naxa.soundrecorder.listeners.OnSingleClickListener;
 import by.naxa.soundrecorder.listeners.OnStartDragListener;
 import by.naxa.soundrecorder.util.EventBroadcaster;
@@ -60,17 +59,13 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
     private ArrayList<RecordingItem> mRecordingItems;
     private final OnStartDragListener mDragStartListener;
 
-    public FileViewerAdapter(
-            Context context,
-            LinearLayoutManager linearLayoutManager,
-            ArrayList<RecordingItem> recordingItems,
-            OnStartDragListener dragListener) {
-
+    public FileViewerAdapter(Context context, LinearLayoutManager linearLayoutManager,
+                             ArrayList<RecordingItem> recordingItems, OnStartDragListener dragListener) {
         super();
+
         mContext = context;
         mDatabase = new DBHelper(mContext);
         mDragStartListener = dragListener;
-
         mRecordingItems = recordingItems;
         llm = linearLayoutManager;
     }
@@ -91,7 +86,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                 )
         );
 
-        // define an on click listener to open PlaybackFragment
+        // Define an on click listener to open PlaybackFragment
         holder.cardView.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
@@ -122,7 +117,6 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
 
                 final CharSequence[] items = entries.toArray(new CharSequence[entries.size()]);
 
-
                 // File delete confirm
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setTitle(mContext.getString(R.string.dialog_title_options));
@@ -152,6 +146,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
             }
         });
 
+        // Define an OnTouchListener to keep track of drag motion
         holder.cardView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -276,7 +271,6 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                 return;
             }
             mDatabase.renameItem(recordingItem, name, mFilePath,position);
-//            notifyItemChanged(position);
         }
     }
 
