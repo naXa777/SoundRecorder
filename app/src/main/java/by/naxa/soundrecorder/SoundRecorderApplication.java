@@ -25,7 +25,7 @@ public class SoundRecorderApplication extends Application {
                 .kits(new Crashlytics.Builder().core(core).build())
                 .debuggable(true)
                 .build();
-        Fabric.with(fabric);
+        Fabric.with(this, new Crashlytics());
     }
 
 }
