@@ -94,6 +94,9 @@ public class FileViewerFragment extends Fragment implements OnDatabaseChangedLis
 
     private void fillRecordingItemList() {
         mDatabase.getCount();
+        if (mRecordingItems != null) {
+            mRecordingItems.clear();
+        }
         for (int i = 0; i < mDatabase.getCount(); i++) {
             mRecordingItems.add(mDatabase.getItemAt(i));
         }
@@ -135,8 +138,9 @@ public class FileViewerFragment extends Fragment implements OnDatabaseChangedLis
 
     @Override
     //TODO
-    public void onDatabaseEntryRenamed() {
-
+    public void onDatabaseEntryRenamed(int position) {
+        fillRecordingItemList();
+        mFileViewerAdapter.notifyItemChanged(position);
     }
 
     @Override

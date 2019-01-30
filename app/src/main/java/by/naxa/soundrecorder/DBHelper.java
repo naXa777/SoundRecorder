@@ -115,7 +115,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return rowId;
     }
 
-    public void renameItem(RecordingItem item, String recordingName, String filePath) {
+    public void renameItem(RecordingItem item, String recordingName, String filePath,int position) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(DBHelperItem.COLUMN_NAME_RECORDING_NAME, recordingName);
@@ -124,7 +124,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 DBHelperItem._ID + "=" + item.getId(), null);
 
         if (mOnDatabaseChangedListener != null) {
-            mOnDatabaseChangedListener.onDatabaseEntryRenamed();
+            mOnDatabaseChangedListener.onDatabaseEntryRenamed(position);
         }
     }
 

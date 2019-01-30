@@ -243,6 +243,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
         ).show();
 
         mDatabase.removeItemWithId(recordingItem.getId());
+        mRecordingItems.remove(position);
         notifyItemRemoved(position);
     }
 
@@ -274,8 +275,8 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                         Toast.LENGTH_LONG).show();
                 return;
             }
-            mDatabase.renameItem(recordingItem, name, mFilePath);
-            notifyItemChanged(position);
+            mDatabase.renameItem(recordingItem, name, mFilePath,position);
+//            notifyItemChanged(position);
         }
     }
 

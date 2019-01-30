@@ -6,5 +6,5 @@ package by.naxa.soundrecorder.listeners;
  */
 public interface OnDatabaseChangedListener{
     void onNewDatabaseEntryAdded();
-    void onDatabaseEntryRenamed();
+    void onDatabaseEntryRenamed(int position);
 }
