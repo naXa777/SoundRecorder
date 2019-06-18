@@ -5,7 +5,7 @@ A simple sound recording Android app implementing <a href="https://material.io/"
 
 ![Icon](/app/src/main/res/mipmap-hdpi/ic_launcher.png) [![Android app on Google Play](https://d.android.com/images/brand/en_app_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=by.naxa.soundrecorder)
 
-## Contributing
+## Contributing !
 
 Contributors are more than welcome. Feel free to report bugs, fix bugs, implement new features, improve translations, increase test coverage, or write documentation.
 
