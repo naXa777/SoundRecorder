@@ -152,8 +152,12 @@ public class RecordingService extends Service {
     public void setFileNameAndPath(boolean isFilePathTemp) {
         if (isFilePathTemp) {
             mFileName = getString(R.string.default_file_name) + (++tempFileCount) + "_" + ".tmp";
+            File file = new File(getExternalCacheDir() + Paths.SOUND_RECORDER_FOLDER);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
             mFilePath = Paths.combine(
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),
+                    getExternalCacheDir(),
                     Paths.SOUND_RECORDER_FOLDER, mFileName);
         } else {
             int count = 0;
