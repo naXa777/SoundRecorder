@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -152,10 +153,7 @@ public class RecordingService extends Service {
     public void setFileNameAndPath(boolean isFilePathTemp) {
         if (isFilePathTemp) {
             mFileName = getString(R.string.default_file_name) + (++tempFileCount) + "_" + ".tmp";
-            File file = new File(getExternalCacheDir() + Paths.SOUND_RECORDER_FOLDER);
-            if (!file.exists()) {
-                file.mkdirs();
-            }
+            Paths.createDirectory(getExternalCacheDir(), Paths.SOUND_RECORDER_FOLDER);
             mFilePath = Paths.combine(
                     getExternalCacheDir(),
                     Paths.SOUND_RECORDER_FOLDER, mFileName);
