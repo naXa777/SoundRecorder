@@ -10,6 +10,8 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import com.coremedia.iso.boxes.Container;
 import com.crashlytics.android.Crashlytics;
 import com.googlecode.mp4parser.authoring.Movie;
@@ -23,12 +25,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import androidx.annotation.Nullable;
 import by.naxa.soundrecorder.DBHelper;
 import by.naxa.soundrecorder.R;
 import by.naxa.soundrecorder.RecorderState;
