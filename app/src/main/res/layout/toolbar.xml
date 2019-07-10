@@ -6,6 +6,6 @@
     android:layout_height="?attr/actionBarSize"
     android:background="@color/primary"
     app:title="@string/app_name"
-    app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+    app:layout_scrollFlags="enterAlwaysCollapsed"
     android:theme="@style/ThemeOverlay.AppTheme.ActionBar"
     app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
