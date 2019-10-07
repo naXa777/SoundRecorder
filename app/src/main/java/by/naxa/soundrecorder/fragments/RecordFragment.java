@@ -1,5 +1,6 @@
 package by.naxa.soundrecorder.fragments;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,6 +21,12 @@ import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import com.budiyev.android.circularprogressbar.CircularProgressBar;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.material.button.MaterialButton;
@@ -26,13 +34,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import by.naxa.soundrecorder.R;
 import by.naxa.soundrecorder.RecorderState;
+import by.naxa.soundrecorder.activities.MainActivity;
 import by.naxa.soundrecorder.listeners.OnSingleClickListener;
 import by.naxa.soundrecorder.services.RecordingService;
 import by.naxa.soundrecorder.util.Command;
@@ -98,6 +102,13 @@ public class RecordFragment extends Fragment {
                         EventBroadcaster.NEW_STATE);
                 if (RecorderState.STOPPED.equals(newState)) {
                     updateUI(newState, SystemClock.elapsedRealtime());
+                    if(intent.getStringExtra(EventBroadcaster.LAST_AUDIO_LOCATION)!=null){
+                        // Recorder was started via a request for audio; set result and finish
+                        if (MainActivity.REQUEST_INTENTS.contains(requireActivity().getIntent().getAction())) {
+                            getActivity().setResult(Activity.RESULT_OK, new Intent().setData(Uri.fromFile(new File(intent.getStringExtra(EventBroadcaster.LAST_AUDIO_LOCATION)))));
+                            getActivity().finish();
+                        }
+                    }
                 } else if (RecorderState.RECORDING.equals(newState)) {
                     long chronometerTime = intent.getLongExtra(EventBroadcaster.CHRONOMETER_TIME,
                             SystemClock.elapsedRealtime());

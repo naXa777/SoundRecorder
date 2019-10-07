@@ -1,21 +1,16 @@
 package by.naxa.soundrecorder.activities;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.crashlytics.android.Crashlytics;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -24,6 +19,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
+
+import com.crashlytics.android.Crashlytics;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import by.naxa.soundrecorder.R;
 import by.naxa.soundrecorder.fragments.FileViewerFragment;
 import by.naxa.soundrecorder.fragments.RecordFragment;
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private BroadcastReceiver mMessageReceiver = null;
+    public static final List<String> REQUEST_INTENTS = Collections.singletonList(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,16 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(root, message, Snackbar.LENGTH_LONG).show();
             }
         };
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(REQUEST_INTENTS.contains(getIntent().getAction())){
+            setResult(Activity.RESULT_CANCELED,null);
+            finish();
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {
