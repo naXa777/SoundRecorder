@@ -102,16 +102,18 @@ public class RecordFragment extends Fragment {
                         EventBroadcaster.NEW_STATE);
                 if (RecorderState.STOPPED.equals(newState)) {
                     updateUI(newState, SystemClock.elapsedRealtime());
-                    if(intent.getStringExtra(EventBroadcaster.LAST_AUDIO_LOCATION)!=null){
-                        // Recorder was started via a request for audio; set result and finish
-                        if (MainActivity.REQUEST_INTENTS.contains(requireActivity().getIntent().getAction())) {
-                            getActivity().setResult(Activity.RESULT_OK, new Intent().setData(Uri.fromFile(new File(intent.getStringExtra(EventBroadcaster.LAST_AUDIO_LOCATION)))));
-                            getActivity().finish();
-                        }
+                    // Recorder was successful and started via a request for audio; set result and finish
+                    if (intent.getStringExtra(EventBroadcaster.LAST_AUDIO_LOCATION) != null && MainActivity.REQUEST_INTENTS.contains(requireActivity().getIntent().getAction())) {
+
+                        getActivity().setResult(Activity.RESULT_OK, new Intent().setData(Uri.fromFile(new File(intent.getStringExtra(EventBroadcaster.LAST_AUDIO_LOCATION)))));
+                        getActivity().finish();
+
                     }
                 } else if (RecorderState.RECORDING.equals(newState)) {
-                    long chronometerTime = intent.getLongExtra(EventBroadcaster.CHRONOMETER_TIME,
-                            SystemClock.elapsedRealtime());
+                    long chronometerTime = intent.getLongExtra(
+                            EventBroadcaster.CHRONOMETER_TIME,
+                            SystemClock.elapsedRealtime()
+                    );
                     updateUI(newState, chronometerTime);
                 }
             }
@@ -158,8 +160,9 @@ public class RecordFragment extends Fragment {
     }
 
     private void tryUnbindService(Context context) {
-        if (context == null)
+        if (context == null) {
             Log.w(LOG_TAG, "tryUnbindService: context is null");
+        }
         if (mConnection != null) {
             context.unbindService(mConnection);
             mConnection = null;
@@ -213,8 +216,10 @@ public class RecordFragment extends Fragment {
                     long chronometerTime = SystemClock.elapsedRealtime() - mRecordingService.getTotalDurationMillis();
                     updateUI(RecorderState.PAUSED, chronometerTime);
                 } else {
-                    if (PermissionsHelper.checkAndRequestPermissions(RecordFragment.this,
-                            MY_PERMISSIONS_REQUEST_RECORD_AUDIO)) {
+                    if (PermissionsHelper.checkAndRequestPermissions(
+                            RecordFragment.this,
+                            MY_PERMISSIONS_REQUEST_RECORD_AUDIO
+                    )) {
                         resumeRecording();
                     }
                 }
@@ -342,7 +347,8 @@ public class RecordFragment extends Fragment {
     private boolean startRecording() {
         final File folder = new File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),
-                Paths.SOUND_RECORDER_FOLDER);
+                Paths.SOUND_RECORDER_FOLDER
+        );
         if (!folder.exists()) {
             // a folder for sound recordings doesn't exist -> create the folder
             boolean ok = Paths.isExternalStorageWritable() && folder.mkdir();
@@ -388,8 +394,10 @@ public class RecordFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(mMessageReceiver,
-                new IntentFilter(EventBroadcaster.CHANGE_STATE));
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
+                mMessageReceiver,
+                new IntentFilter(EventBroadcaster.CHANGE_STATE)
+        );
     }
 
     @Override
@@ -433,8 +441,9 @@ public class RecordFragment extends Fragment {
     }
 
     private boolean allPermissionsGranted(int[] grantResults) {
-        if (grantResults == null || grantResults.length == 0)
+        if (grantResults == null || grantResults.length == 0) {
             return false;
+        }
 
         boolean ok = true;
         for (int grantResult : grantResults) {

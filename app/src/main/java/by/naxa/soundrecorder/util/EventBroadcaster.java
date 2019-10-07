@@ -15,7 +15,7 @@ public class EventBroadcaster {
     public static final String CHANGE_STATE = "CHANGE_STATE";
     public static final String NEW_STATE = "NEW_STATE";
     public static final String CHRONOMETER_TIME = "CHRONOMETER_TIME";
-    public static final String LAST_AUDIO_LOCATION="LAST_AUDIO_LOCATION";
+    public static final String LAST_AUDIO_LOCATION = "LAST_AUDIO_LOCATION";
 
     public static void send(@NonNull Context context, String message) {
         final Intent it = new Intent(EventBroadcaster.SHOW_SNACKBAR);

@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(REQUEST_INTENTS.contains(getIntent().getAction())){
-            setResult(Activity.RESULT_CANCELED,null);
+        if (REQUEST_INTENTS.contains(getIntent().getAction())) {
+            setResult(Activity.RESULT_CANCELED, null);
             finish();
         }
     }
@@ -137,8 +137,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter(EventBroadcaster.SHOW_SNACKBAR));
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                mMessageReceiver,
+                new IntentFilter(EventBroadcaster.SHOW_SNACKBAR)
+        );
     }
 
     @Override
