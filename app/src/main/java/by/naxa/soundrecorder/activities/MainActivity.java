@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -29,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 import by.naxa.soundrecorder.R;
+import by.naxa.soundrecorder.SoundRecorderApplication;
 import by.naxa.soundrecorder.fragments.FileViewerFragment;
 import by.naxa.soundrecorder.fragments.RecordFragment;
 import by.naxa.soundrecorder.util.EventBroadcaster;
@@ -43,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (SoundRecorderApplication.getInstance().isNightModeEnabled()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES); //For night mode theme
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); //For day mode theme
+        }
         setContentView(R.layout.activity_main);
 
         final ViewPager pager = findViewById(R.id.pager);
@@ -137,6 +144,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (SoundRecorderApplication.getInstance().isNightModeEnabled()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES); //For night mode theme
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); //For day mode theme
+        }
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 mMessageReceiver,
                 new IntentFilter(EventBroadcaster.SHOW_SNACKBAR)
