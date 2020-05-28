@@ -606,6 +606,7 @@ public class PlaybackFragment extends AppCompatDialogFragment {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay!
                     startOrResumePlaying();
+                    isPlaying = true;
                 } else {
                     EventBroadcaster.send(getContext(),
                             R.string.error_no_permission_granted_for_playback);
