@@ -34,6 +34,8 @@ import by.naxa.soundrecorder.SoundRecorderApplication;
 import by.naxa.soundrecorder.fragments.FileViewerFragment;
 import by.naxa.soundrecorder.fragments.RecordFragment;
 import by.naxa.soundrecorder.util.EventBroadcaster;
+import cafe.adriel.androidaudioconverter.AndroidAudioConverter;
+import cafe.adriel.androidaudioconverter.callback.ILoadCallback;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +47,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        AndroidAudioConverter.load(this, new ILoadCallback() {
+            @Override
+            public void onSuccess() {
+                // Great!
+            }
+            @Override
+            public void onFailure(Exception error) {
+                // FFmpeg is not supported by device
+            }
+        });
+
+
         if (SoundRecorderApplication.getInstance().isNightModeEnabled()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES); //For night mode theme
         } else {

@@ -1,10 +1,15 @@
 package by.naxa.soundrecorder.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -21,14 +26,31 @@ import by.naxa.soundrecorder.util.MySharedPreferences;
  * Created by Daniel on 5/22/2017.
  */
 public class SettingsFragment extends PreferenceFragment {
+    private static String format = ".mp4";
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
+        final ListPreference listPreferenceCategory = (ListPreference) findPreference("pref_list");
+
+
+        listPreferenceCategory.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+               format = newValue.toString();
+                Toast.makeText(getActivity(), "Selected: "+format, Toast.LENGTH_LONG).show();
+
+                return true;
+            }
+        });
+
+
         final CheckBoxPreference highQualityPref = (CheckBoxPreference) findPreference(
                 getResources().getString(R.string.pref_high_quality_key));
+
         highQualityPref.setChecked(MySharedPreferences.getPrefHighQuality(getActivity()));
         highQualityPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -62,7 +84,7 @@ public class SettingsFragment extends PreferenceFragment {
         darkModePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if(darkModePref.isChecked()) {
+                if (darkModePref.isChecked()) {
                     SoundRecorderApplication.getInstance().setIsNightModeEnabled(false);
                     Toast.makeText(getActivity(), "Dark Mode is OFF", Toast.LENGTH_SHORT).show();
                     darkModePref.setChecked(false);
@@ -76,5 +98,9 @@ public class SettingsFragment extends PreferenceFragment {
                 return false;
             }
         });
+    }
+
+    public static String getFormat() {
+        return format;
     }
 }

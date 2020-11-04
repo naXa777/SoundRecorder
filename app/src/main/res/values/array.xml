@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- foreground color names array -->
+    <string-array name="format_names_array">
+        <item>MP4</item>
+        <!--item>#00FFFF</item-->
+
+        <item>MP3(converted)</item>
+        <!--item>#F0FFFF</item-->
+
+        <item>AMR</item>
+        <!--item>#F5F5DC</item-->
+
+    </string-array>
+
+    <!-- foreground color values array -->
+    <string-array name="format_values_array">
+        <!--item>Aqua</item-->
+        <item>.mp4</item>
+
+        <!--item>Azure</item-->
+        <item>.mp3</item>
+
+        <!--item>Beige</item-->
+        <item>.amr</item>
+    </string-array>
+
+</resources>

@@ -9,12 +9,23 @@
         android:title="@string/pref_high_quality_title"
         android:summary="@string/pref_high_quality_desc"/>
 
+    <ListPreference
+        android:key="pref_list"
+        android:title="Output Format"
+        android:defaultValue=".mp4"
+        android:entries="@array/format_names_array"
+        android:entryValues="@array/format_values_array"
+        android:summary="Select a format"
+        />
+
+
     <PreferenceCategory
         android:title="@string/pref_section_about"/>
     <Preference
         android:key="pref_about"
         android:title="@string/pref_appversion_title"
         android:summary="@string/pref_about_desc"/>
+
     <Preference
         android:key="pref_licenses"
         android:title="@string/pref_licenses_title"

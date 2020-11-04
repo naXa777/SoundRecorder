@@ -30,11 +30,15 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
+
 import by.naxa.soundrecorder.BuildConfig;
 import by.naxa.soundrecorder.DBHelper;
 import by.naxa.soundrecorder.R;
 import by.naxa.soundrecorder.RecordingItem;
 import by.naxa.soundrecorder.fragments.PlaybackFragment;
+import by.naxa.soundrecorder.fragments.SettingsFragment;
 import by.naxa.soundrecorder.listeners.OnDatabaseChangedListener;
 import by.naxa.soundrecorder.listeners.OnSingleClickListener;
 import by.naxa.soundrecorder.util.EventBroadcaster;
@@ -238,6 +242,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
      * rename a file
      */
     public void rename(int position, String name) {
+
         final String mFilePath = Paths.combine(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),
                 Paths.SOUND_RECORDER_FOLDER, name);
@@ -275,11 +280,17 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
     }
 
     private void renameFileDialog(final int position) {
+
         // File rename dialog
         AlertDialog.Builder renameFileBuilder = new AlertDialog.Builder(mContext);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.dialog_rename_file, null);
+        TextView text = (TextView)view.findViewById(R.id.textView);
+        text.setText(SettingsFragment.getFormat());
+
+       // TextView textView = (TextView) view.findViewById(R.id.textView);
+     //   textView.setText(SettingsFragment.getFormat());
 
         final TextInputEditText input = view.findViewById(R.id.new_name);
 
@@ -292,7 +303,8 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                             final Editable editable = input.getText();
                             if (editable == null)
                                 return;
-                            final String value = editable.toString().trim() + ".mp4";
+
+                            final String value = editable.toString().trim() + SettingsFragment.getFormat();
                             rename(position, value);
                         } catch (Exception e) {
                             if (Fabric.isInitialized()) Crashlytics.logException(e);

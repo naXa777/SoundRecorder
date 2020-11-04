@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,6 +46,9 @@ import by.naxa.soundrecorder.util.MyIntentBuilder;
 import by.naxa.soundrecorder.util.Paths;
 import by.naxa.soundrecorder.util.PermissionsHelper;
 import by.naxa.soundrecorder.util.ScreenLock;
+import cafe.adriel.androidaudioconverter.AndroidAudioConverter;
+import cafe.adriel.androidaudioconverter.callback.IConvertCallback;
+import cafe.adriel.androidaudioconverter.model.AudioFormat;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -329,7 +333,42 @@ public class RecordFragment extends Fragment {
     /**
      * Stop recording
      */
+
+    public void convertAudio(){
+        /**
+         *  Update with a valid audio file!
+         *  Supported formats: {@link AndroidAudioConverter.AudioFormat}
+         */
+        String path = Paths.combine(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),
+                Paths.SOUND_RECORDER_FOLDER, "My Recording_1.mp4");
+
+        File source = new File(path);
+
+        IConvertCallback callback = new IConvertCallback() {
+            @Override
+            public void onSuccess(File convertedFile) {
+                Toast.makeText(getContext(), "SUCCESS: " + convertedFile.getPath(), Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onFailure(Exception error) {
+                Toast.makeText(getContext(), "ERROR: " + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        };
+
+
+        Toast.makeText(getContext(), "Converting audio file...", Toast.LENGTH_SHORT).show();
+        AndroidAudioConverter.with(getContext())
+                .setFile(source)
+                .setFormat(AudioFormat.MP3)
+                .setCallback(callback)
+                .convert();
+    }
+
+
     private void stopRecording() {
+
+
         final FragmentActivity activity = getActivity();
         if (activity == null) {
             Log.wtf(LOG_TAG, "RecordFragment failed to stop recording, getActivity() returns null.");
